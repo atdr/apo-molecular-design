@@ -1,4 +1,5 @@
 $title "let's get started"
+$onEolCom
 
 SETS
     i       groups / i1*i4 /
@@ -16,20 +17,19 @@ SETS
 PARAMETERS
     pL(j)   property lower bounds
     pU(j)   property upper bounds
-    nL(i)  groups lower bounds
-    nU(i)  groups upper bounds
+    nL(i)   groups lower bounds
+    nU(i)   groups upper bounds
     b(i)    group valency
-/ i1  1,
-i2 2,
-i3 3,
-i4 4/
+        / i1 1,
+          i2 2,
+          i3 3,
+          i4 4/
     S(i)    # of single bonds on group i
-/ i1  1,
-i2 2,
-i3 3,
-i4 4/
+        / i1 1,
+          i2 2,
+          i3 3,
+          i4 4/
     D(i)  # of double bonds on group i
-
     T(i)  # of triple bonds on group i
     Nmax  max # of any group
     Te    evaporation temperature
@@ -42,6 +42,7 @@ i4 4/
     Hv0
     c(i,l)  group constants
 ;
+
 pL('j1') = 0;
 pL('j2') = 0;
 pL('j3') = 0;
@@ -173,6 +174,11 @@ ObjFun..        OF   =e= p('j8')/p('j12');
 
 n.lo(i)=nL(i);
 n.up(i)=nU(i);
+
+* set intial values
+p.l(j) = 1; !! completely arbitrary
+p.l('j2') = max(Tc,Te); !! avoid negative bases for powers in eqs 4-5
+n.l('i1') = 1; !! start with one of group 1
 
 Model CAMP /all/;
 Solve CAMP using MINLP minimise OF;
