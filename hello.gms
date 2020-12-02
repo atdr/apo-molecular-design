@@ -46,7 +46,7 @@ PARAMETERS
 pL('j1') = 0;
 pL('j2') = 0;
 pL('j3') = 0;
-pL('j4') = -100000;
+pL('j4') = 0;
 pL('j5') = 0;
 pL('j6') = 1.1;
 pL('j7') = 0;
@@ -54,12 +54,12 @@ pL('j8') = 0;
 pL('j9') = -1000;
 pL('j10') = -1000;
 pL('j11') = 0;
-pL('j12') = -20.353;
+pL('j12') = 0;
 
 pU('j1') = 1000;
 pU('j2') = 1000;
 pU('j3') = 1000;
-pU('j4') = 0;
+pU('j4') = 10000;
 pU('j5') = 1000;
 pU('j6') = 100;
 pU('j7') = 14;
@@ -67,7 +67,7 @@ pU('j8') = 143.67;
 pU('j9') = 1000;
 pU('j10') = 1000;
 pU('j11') = 1;
-pU('j12') = 0;
+pU('j12') = 20.353;
 
 D(i) = 0;
 T(i) = 0;
@@ -120,13 +120,14 @@ BINARY VARIABLES
 
 EQUATIONS
 eq1a,eq1b,eq1c,eq1d,eq2a,eq2b,eq3a,eq3b,eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2,eq5,eq6,eq7,eq8,eq9,eq10,
-eq11, eq12, eq13, eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20, eq21, eq22, eq23, eq24, eq25(i), eq27a, eq27b, eq28, eq29, eq30, eq31,eq32(i),
-eq33(j),eq34(j), ObjFun
+* eq11, eq12, eq13, eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20, eq21, eq22, eq23, eq24, eq25(i), eq27a, eq27b, eq28, eq29, eq30, eq31,eq32(i),
+* eq33(j),eq34(j),
+ObjFun
 ;
 
 eq1a..     p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
 eq1b..     p('j2') =e= Tc0*log(sum(i,n(i)*c(i,'2')));
-eq1c..     p('j3') =e= (sum(i,n(i)*c(i,'3'))+Pc2)**(-2)+Pc1;
+eq1c..     p('j3') =e= power(sum(i,n(i)*c(i,'3'))+Pc2,-2)+Pc1;
 eq1d..     p('j4') =e= sum(i,n(i)*c(i,'4'))+Hv0;
 eq2a..     p('j5') =e= (sum(i,n(i)*c(i,'5'))-19.7779)+(sum(i,n(i)*c(i,'6'))+22.5981)*theta+(sum(i,n(i)*c(i,'7'))-10.7983)*power(theta,2);
 eq2b..     theta =e= (Tm-298)/700;
@@ -144,45 +145,56 @@ eq7..      p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('j
 eq8..      p('j11') =e= p('j9')/p('j10');
 eq9..      p('j12') =e= p('j4')*((1-Te/p('j2'))/(1-p('j1')/p('j2')))**0.38;
 eq10..      sum(i, n(i)) =g= 2;
-eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
-eq12..      sum(i, n(i)*b(i)) =g= 2*sum(i, n(i)-1);
-eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*sum(i, n(i)-1);
-eq17a..     YSDx =l= sum(SDx, n(SDx));
-eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
-eq18a..     YSDy =l= sum(SDx, n(SDx));
-eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-eq19a..     YSDz =l= sum(SDx, n(SDx));
-eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
-eq20..      YSDy + YSDz -1 =l= YSDx;
-eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
-eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
-eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
-eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
-Alias (i, ii);
-eq25(i)..       sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
-eq27a..     YH =l= sum(H, n(H));
-eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
-eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
-eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
-eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
-eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*sum(H, n(H)-1);
-eq32(i)..   n(i) =l= Nmax;
-eq33(j)..   p(j) =l= pU(j);
-eq34(j)..   p(j) =g= pL(j);
+* eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
+* eq12..      sum(i, n(i)*b(i)) =g= 2*sum(i, n(i)-1);
+* eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*sum(i, n(i)-1);
+* eq17a..     YSDx =l= sum(SDx, n(SDx));
+* eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
+* eq18a..     YSDy =l= sum(SDx, n(SDx));
+* eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
+* eq19a..     YSDz =l= sum(SDx, n(SDx));
+* eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
+* eq20..      YSDy + YSDz -1 =l= YSDx;
+* eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
+* eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
+* eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
+* eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+* Alias (i, ii);
+* eq25(i)..       sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
+* eq27a..     YH =l= sum(H, n(H));
+* eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
+* eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
+* eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
+* eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
+* eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*sum(H, n(H)-1);
+* eq32(i)..   n(i) =l= Nmax;
+* eq33(j)..   p(j) =l= pU(j);
+* eq34(j)..   p(j) =g= pL(j);
 
 ObjFun..        OF   =e= p('j8')/p('j12');
 
 n.lo(i)=nL(i);
 n.up(i)=nU(i);
 
+p.lo(j)=pL(j);
+p.up(j)=pU(j);
+
 * set intial values
 p.l(j) = 1; !! completely arbitrary
 p.l('j2') = max(Tc,Te); !! avoid negative bases for powers in eqs 4-5
-p.l('j4') = -1;
-p.l('j12') = p.l('j4');
 n.l('i1') = 1; !! start with one of group 1
 
 OPTION SYSOUT = ON;
 
+option minlp = baron;
+
 Model CAMP /all/;
+
+CAMP.OPTFILE=1;
+$onecho > baron.opt
+# https://www.gams.com/latest/docs/S_BARON.html#BARONCompIIS
+CompIIS = 5
+IISOrder = 1
+$offecho
+
 Solve CAMP using MINLP minimise OF;
