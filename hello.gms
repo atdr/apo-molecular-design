@@ -2,7 +2,7 @@ $title "let's get started"
 $onEolCom
 
 SETS
-    i       groups / i1*i4 /
+    i       groups / i1*i4 / !! CH3, CH2, CH C
     j       properties / j1*j12 /
     k       indices /1*2/
     l       indices /1*7/
@@ -71,9 +71,9 @@ pU('j12') = 20.353;
 
 D(i) = 0;
 T(i) = 0;
-nU(i) = 3;
-nL(i) = 0;
 Nmax = 3;
+nU(i) = Nmax;
+nL(i) = 0;
 Te   = 272;
 Tc   = 316;
 Tm   = 294;
@@ -111,6 +111,7 @@ INTEGER VARIABLES
     ZT      number of triple bonds
 ;
 ZBo.up = 10; ZS.up = 10; ZD.up = 10; ZT.up = 10;
+ZBo.l = 1;
 
 BINARY VARIABLES
     YSDx    exist singly and doubly-bonded groups
@@ -136,54 +137,62 @@ EQUATIONS
     eq8     acentricity factor
     eq9     enthalpy of vaporization at Te
     eq10
-* eq11, eq12, eq13, eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20, eq21, eq22, eq23, eq24, eq25(i), eq27a, eq27b, eq28, eq29, eq30, eq31,eq32(i)
-* eq33(j),eq34(j),
+* eq11 !! makes it unhappy
+eq12
+eq13
+* eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
+* eq21 !! makes it unhappy
+* eq22, eq23, eq24
+eq25(i)
+* eq27a, eq27b, eq28, eq29, eq30, eq31
+* eq32(i), eq33(j),eq34(j),
 ObjFun
 ;
 
-eq1a..     p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
-eq1b..     p('j2') =e= Tc0*log(sum(i,n(i)*c(i,'2')));
-eq1c..     p('j3') =e= power(sum(i,n(i)*c(i,'3'))+Pc2,-2)+Pc1;
-eq1d..     p('j4') =e= sum(i,n(i)*c(i,'4'))+Hv0;
-eq2a..     p('j5') =e= (sum(i,n(i)*c(i,'5'))-19.7779)+(sum(i,n(i)*c(i,'6'))+22.5981)*theta+(sum(i,n(i)*c(i,'7'))-10.7983)*power(theta,2);
-eq2b..     theta =e= (Tm-298)/700;
-eq3a..     p('j6') =e= exp(f0('1')+p('j11')*f1('1')+power(p('j11'),2)*f2('1'))*p('j3');
-eq3b..     p('j7') =e= exp(f0('2')+p('j11')*f1('2')+power(p('j11'),2)*f2('2'))*p('j3');
-eq4a1..    f0('1') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4b1..    f1('1') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4c1..    f2('1') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4a2..    f0('2') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4b2..    f1('2') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4c2..    f2('2') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq5..      p('j8') =e= p('j5')+8.314*(1.45+0.45/(1-Tm/p('j2'))+0.25*p('j11')*(17.11+25.22*(1-Tm/p('j2'))**(1/3)/(Tm/p('j2'))+1.742/(1-Tm/p('j2'))));
-eq6..      p('j9') =e= -5.97214-log(p('j3')/1.013)+6.09648*p('j2')/p('j1')+1.28862*log(p('j1')/p('j2'))-0.169347*(p('j1')/p('j2'))**6;
-eq7..      p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('j2'))+0.4357*(p('j1')/p('j2'))**6;
-eq8..      p('j11') =e= p('j9')/p('j10');
-eq9..      p('j12') =e= p('j4')*((1-Te/p('j2'))/(1-p('j1')/p('j2')))**0.38;
+eq1a..      p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
+eq1b..      p('j2') =e= Tc0*log(sum(i,n(i)*c(i,'2')));
+eq1c..      p('j3') =e= power(sum(i,n(i)*c(i,'3'))+Pc2,-2)+Pc1;
+eq1d..      p('j4') =e= sum(i,n(i)*c(i,'4'))+Hv0;
+eq2a..      p('j5') =e= (sum(i,n(i)*c(i,'5'))-19.7779)+(sum(i,n(i)*c(i,'6'))+22.5981)*theta+(sum(i,n(i)*c(i,'7'))-10.7983)*power(theta,2);
+eq2b..      theta =e= (Tm-298)/700;
+eq3a..      p('j6') =e= exp(f0('1')+p('j11')*f1('1')+power(p('j11'),2)*f2('1'))*p('j3');
+eq3b..      p('j7') =e= exp(f0('2')+p('j11')*f1('2')+power(p('j11'),2)*f2('2'))*p('j3');
+eq4a1..     f0('1') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4b1..     f1('1') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4c1..     f2('1') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4a2..     f0('2') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq4b2..     f1('2') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq4c2..     f2('2') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq5..       p('j8') =e= p('j5')+8.314*(1.45+0.45/(1-Tm/p('j2'))+0.25*p('j11')*(17.11+25.22*(1-Tm/p('j2'))**(1/3)/(Tm/p('j2'))+1.742/(1-Tm/p('j2'))));
+eq6..       p('j9') =e= -5.97214-log(p('j3')/1.013)+6.09648*p('j2')/p('j1')+1.28862*log(p('j1')/p('j2'))-0.169347*(p('j1')/p('j2'))**6;
+eq7..       p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('j2'))+0.4357*(p('j1')/p('j2'))**6;
+eq8..       p('j11') =e= p('j9')/p('j10');
+eq9..       p('j12') =e= p('j4')*((1-Te/p('j2'))/(1-p('j1')/p('j2')))**0.38;
 eq10..      sum(i, n(i)) =g= 2;
 * eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
-* eq12..      sum(i, n(i)*b(i)) =g= 2*sum(i, n(i)-1);
-* eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*sum(i, n(i)-1);
-* eq17a..     YSDx =l= sum(SDx, n(SDx));
+eq12..      sum(i, n(i)*b(i)) =g= 2*sum(i, n(i)-1);
+eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*(sum(i, n(i))-1);
+* eq17a..     sum(SDx, n(SDx)) =g= YSDx;
 * eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
-* eq18a..     YSDy =l= sum(SDx, n(SDx));
+* eq18a..     sum(SDy, n(SDy)) =g= YSDy;
 * eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-* eq19a..     YSDz =l= sum(SDx, n(SDx));
+* eq19a..     sum(SDz, n(SDz)) =g= YSDz;
 * eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
 * eq20..      YSDy + YSDz -1 =l= YSDx;
 * eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
+* eq21..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of above (simpler)
 * eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
 * eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
 * eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
-* Alias (i, ii);
-* eq25(i)..       sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
+Alias (i, ii);
+eq25(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
 * eq27a..     YH =l= sum(H, n(H));
 * eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
 * eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
 * eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
 * eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
 * eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*sum(H, n(H)-1);
-* eq32(i)..   n(i) =l= Nmax;
+* eq32(i)..   n(i) =l= nU(i);
 * eq33(j)..   p(j) =l= pU(j);
 * eq34(j)..   p(j) =g= pL(j);
 
@@ -198,7 +207,7 @@ p.up(j)=pU(j);
 * set intial values
 p.l(j) = 1; !! completely arbitrary
 p.l('j2') = max(Tc,Te); !! avoid negative bases for powers in eqs 4-5
-n.l('i1') = 1; !! start with one of group 1
+n.l('i1') = 2; !! start with some of group 1
 
 OPTION SYSOUT = ON;
 
@@ -209,8 +218,7 @@ Model CAMP /all/;
 CAMP.OPTFILE=1;
 $onecho > baron.opt
 # https://www.gams.com/latest/docs/S_BARON.html#BARONCompIIS
-CompIIS = 5
-IISOrder = 1
+CompIIS = 4
 $offecho
 
 Solve CAMP using MINLP minimise OF;
