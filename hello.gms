@@ -2,7 +2,7 @@ $title "let's get started"
 $onEolCom
 
 SETS
-    i       groups / i1*i5 / !! CH3, CH2, CH C
+    i       groups / i1*i5 / !! CH3, CH2, CH C Br
     j       properties / j1*j12 /
     k       indices /1*2/
     l       indices /1*7/
@@ -56,7 +56,7 @@ pL('j8') = 0;
 pL('j9') = -10;
 pL('j10') = -10;
 pL('j11') = 0;
-pL('j12') = 0;
+pL('j12') = 20.353;
 
 pU('j1') = 1000;
 pU('j2') = 1000;
@@ -69,7 +69,7 @@ pU('j8') = 143.67;
 pU('j9') =  10;
 pU('j10') = 10;
 pU('j11') = 1;
-pU('j12') = 20.353;
+pU('j12') = 10000;
 
 D(i) = 0;
 T(i) = 0;
@@ -108,20 +108,20 @@ VARIABLES
 
 INTEGER VARIABLES
     n(i)    group multiplicity
-* ZBo     number of odd bonds
-* ZS      number of single bonds
-* ZD      number of double bonds
-* ZT      number of triple bonds
+ZBo     number of odd bonds
+ZS      number of single bonds
+ZD      number of double bonds
+ZT      number of triple bonds
 ;
-* ZBo.up = 10; ZS.up = 10; ZD.up = 10; ZT.up = 10;
-* ZBo.l = 1;
+ZBo.up = 10; ZS.up = 10; ZD.up = 10; ZT.up = 10;
+ZBo.l = 1;
 
-* BINARY VARIABLES
-*     YSDx    exist singly and doubly-bonded groups
-*     YSDy    exist singly not doubly-bonded groups
-*     YSDz    exist doubly not singly-bonded groups
-*     YH      exist higher-order groups
-* ;
+BINARY VARIABLES
+    YSDx    exist singly and doubly-bonded groups
+    YSDy    exist singly not doubly-bonded groups
+    YSDz    exist doubly not singly-bonded groups
+    YH      exist higher-order groups
+;
 
 
 EQUATIONS
@@ -140,14 +140,14 @@ EQUATIONS
     eq8     acentricity factor
     eq9     enthalpy of vaporization at Te
     eq10
-* eq11 !! makes it unhappy
+eq11 !! makes it unhappy
 eq12
 eq13
-* eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
+eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
 eq21 !! makes it unhappy
-* eq22, eq23, eq24
+eq22, eq23, eq24
 eq25(i)
-* eq27a, eq27b, eq28, eq29, eq30, eq31
+eq27a, eq27b, eq28, eq29, eq30, eq31
 * eq32(i), eq33(j),eq34(j),
 ObjFun
 ;
@@ -172,29 +172,29 @@ eq7..       p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('
 eq8..       p('j11') =e= p('j9')/p('j10');
 eq9..       p('j12') =e= p('j4')*((1-Te/p('j2'))/(1-p('j1')/p('j2')))**0.38;
 eq10..      sum(i, n(i)) =g= 2;
-* eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
+eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
 eq12..      sum(i, n(i)*b(i)) =g= 2*(sum(i, n(i))-1);
 eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*(sum(i, n(i))-1);
-* eq17a..     sum(SDx, n(SDx)) =g= YSDx;
-* eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
-* eq18a..     sum(SDy, n(SDy)) =g= YSDy;
-* eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-* eq19a..     sum(SDz, n(SDz)) =g= YSDz;
-* eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
-* eq20..      YSDy + YSDz -1 =l= YSDx;
+eq17a..     sum(SDx, n(SDx)) =g= YSDx;
+eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
+eq18a..     sum(SDy, n(SDy)) =g= YSDy;
+eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
+eq19a..     sum(SDz, n(SDz)) =g= YSDz;
+eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
+eq20..      YSDy + YSDz -1 =l= YSDx;
 * eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
 eq21..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of above (simpler)
-* eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
-* eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
-* eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
+eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
+eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
 Alias (i, ii);
 eq25(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
-* eq27a..     YH =l= sum(H, n(H));
-* eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
-* eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
-* eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
-* eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
-* eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*sum(H, n(H)-1);
+eq27a..     YH =l= sum(H, n(H));
+eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
+eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
+eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
+eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
+eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
 * eq32(i)..   n(i) =l= nU(i);
 * eq33(j)..   p(j) =l= pU(j);
 * eq34(j)..   p(j) =g= pL(j);
@@ -211,7 +211,7 @@ p.up(j)=pU(j);
 p.l('j1') = 250; !! completely arbitrary
 p.l('j2') = 400;
 p.l('j3') = 20;
-p.l('j4') = 20; 
+p.l('j4') = 20;
 p.l('j5') = 100;
 p.l('j6') = 1.5;
 p.l('j7') = 4.5;
@@ -221,14 +221,11 @@ p.l('j10') = -4;
 p.l('j11') = 0.03;
 p.l('j12') = 15;
 n.l('i1') = 1;
-n.l('i2') = 0;
-n.l('i3') = 0;
-n.l('i4') = 0;
 n.l('i5') = 1; !! start with some of group 1
 
 OPTION SYSOUT = ON;
 
-option minlp = baron;
+* option minlp = baron;
 
 Model CAMD /all/;
 
