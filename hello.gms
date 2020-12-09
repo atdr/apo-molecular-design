@@ -125,7 +125,17 @@ EQUATIONS
     eq1b    Critical temperature (Tc)
     eq1c    Critical pressure (Pc)
     eq1d    Standard enthalpy of vaporization at 298K (Hv)
-    eq2a,eq2b,eq3a,eq3b,eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2,eq5,eq6,eq7,eq8,eq9,eq10
+    eq2a    vapour heat capacity (Poling)
+    eq2b    theta for ditto
+    eq3a    Pvp (evap)
+    eq3b    Pvp (cond)
+    eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2 !! some parameter for Pvp (woo woo) - index 1/2 refer to evap/cond
+    eq5     liquid heat capacity
+    eq6     alpha (for eq8)
+    eq7     beta (for eq8)
+    eq8     acentricity factor
+    eq9     enthalpy of vaporization at Te
+    eq10
 * eq11, eq12, eq13, eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20, eq21, eq22, eq23, eq24, eq25(i), eq27a, eq27b, eq28, eq29, eq30, eq31,eq32(i)
 * eq33(j),eq34(j),
 ObjFun
@@ -141,11 +151,11 @@ eq3a..     p('j6') =e= exp(f0('1')+p('j11')*f1('1')+power(p('j11'),2)*f2('1'))*p
 eq3b..     p('j7') =e= exp(f0('2')+p('j11')*f1('2')+power(p('j11'),2)*f2('2'))*p('j3');
 eq4a1..    f0('1') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
 eq4b1..    f1('1') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4c1..    f2('1') =e= (-0.64771*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4c1..    f2('1') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
 eq4a2..    f0('2') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
 eq4b2..    f1('2') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4c2..    f2('2') =e= (-0.64771*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq5..      p('j8') =e= 1/4.1868*(p('j5')+8.314*(1.45+0.45/(1-Tm/p('j2'))+0.25*p('j12')*(17.11+25.22*(1-Tm/p('j2'))**(1/3)/(Tm/p('j2'))+1.742/(1-Tm/p('j2')))));
+eq4c2..    f2('2') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq5..      p('j8') =e= p('j5')+8.314*(1.45+0.45/(1-Tm/p('j2'))+0.25*p('j11')*(17.11+25.22*(1-Tm/p('j2'))**(1/3)/(Tm/p('j2'))+1.742/(1-Tm/p('j2'))));
 eq6..      p('j9') =e= -5.97214-log(p('j3')/1.013)+6.09648*p('j2')/p('j1')+1.28862*log(p('j1')/p('j2'))-0.169347*(p('j1')/p('j2'))**6;
 eq7..      p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('j2'))+0.4357*(p('j1')/p('j2'))**6;
 eq8..      p('j11') =e= p('j9')/p('j10');
