@@ -2,17 +2,22 @@ $title "let's get started"
 $onEolCom
 
 SETS
-    i       groups / i1*i5 / !! CH3, CH2, CH C Br
+    i       groups / i1*i16 / !! CH3, CH2, CH C Br
     j       properties / j1*j12 /
     k       indices /1*2/
     l       indices /1*7/
-    Bo(i)   oddly-bonded bonds /i1,i3,i5/
+    Bo(i)   oddly-bonded bonds /i1,i3,i5,i8,i10,i12,i13,i15,i16/
     SDx(i)  /system.empty/
-    SDy(i)  /i1*i5/
+    SDy(i)  /i1*i16/
     SDz(i)  /system.empty/
-    H(i)    groups with higher-order bonds /i2*i4/
-    O(i)    groups with single bond /i1,i5/ !! define relation with H
+    H(i)    groups with higher-order bonds /i2*i4,i6*i9,i11,i12,i14/
+    O(i)    groups with single bond /i1,i5,i10,i13,i15,i16/ !! define relation with H
+
+    x       integer cuts /1,2/
+    dyn(x)  dynamic set of c
 ;
+
+dyn(x) = no;
 
 PARAMETERS
     pL(j)   property lower bounds
@@ -20,17 +25,39 @@ PARAMETERS
     nL(i)   groups lower bounds
     nU(i)   groups upper bounds
     b(i)    group valency
-        / i1 1,
-          i2 2,
-          i3 3,
-          i4 4,
-          i5 1/
+        /i1 1,
+        i2 2,
+        i3 3,
+        i4 4,
+        i5 1,
+        i6 2,
+        i7 2,
+        i8 3,
+        i9 4,
+        i10 1,
+        i11 2,
+        i12 3,
+        i13 1,
+        i14 2,
+        i15 1,
+        i16 1/
     S(i)    # of single bonds on group i
-        / i1 1,
-          i2 2,
-          i3 3,
-          i4 4,
-          i5 1/
+        /i1 1,
+        i2 2,
+        i3 3,
+        i4 4,
+        i5 1,
+        i6 2,
+        i7 2,
+        i8 3,
+        i9 4,
+        i10 1,
+        i11 2,
+        i12 3,
+        i13 1,
+        i14 2,
+        i15 1,
+        i16 1/
     D(i)  # of double bonds on group i
     T(i)  # of triple bonds on group i
     Nmax  max # of any group
@@ -43,6 +70,9 @@ PARAMETERS
     Pc2
     Hv0
     c(i,l)  group constants
+    nv(i,x)
+    OFv(x)
+    pv(j,x)
 ;
 
 pL('j1') = 0;
@@ -88,12 +118,23 @@ Pc2  = 0.108998; !!bar^{-0.5}
 Hv0  = 11.733; !! kJ/mol
 
 Table c(i,l)
-         1       2       3         4      5       6       7
-i1       0.8491  1.7506  0.018615  0.217  35.1152 39.5923 -9.9232
-i2       0.7141  1.3327  0.013547  4.91   22.6346 45.0933 -15.7033
-i3       0.2925  0.596   0.007259  7.962  8.9272  59.9786 -29.5143
-i4       -0.0671 0.0306  0.001219  10.73  0.3456  74.0368 -45.7878
-i5       2.4231	 4.5036	-0.00146   9.888  28.026  -7.1651	2.4332
+        1        2        3         4       5        6          7
+i1      0.8491   1.7506   0.018615  0.217   35.1152  39.5923   -9.9232
+i2      0.7141   1.3327   0.013547  4.91    22.6346  45.0933   -15.7033
+i3      0.2925   0.596    0.007259  7.962   8.9272   59.9786   -29.5143
+i4     -0.0671   0.0306   0.001219  10.73   0.3456   74.0368   -45.7878
+i5      1.5596   3.2295   0.025745  4.031   49.2506  59.384    -21.7908
+i6      1.5597   3.0741   0.023003  9.456   35.2248  62.1924   -24.8156
+i7      1.3621   2.7717   0.021137  8.602   37.6299  62.1285   -26.0637
+i8      1.2971   2.5666   0.019609  14.095  21.3528  66.3947   -29.3703
+i9      1.2739   2.6391   0.014114  19.91   10.2797  65.5372   -30.6057
+i10     2.6364   6.2561   6.2561    11.754  48.4648  37.237    -13.0635
+i11     2.0246   4.3756   4.3756    12.048  36.5885  47.6004   -22.8148
+i12     1.7049   3.7063   3.7063    16.597  29.1848  52.3817   -30.8526
+i13     3.9093   8.8073   0.036746  20.55   56.1685  46.9337   -31.3325
+i14     0.5149   0.8543   0.018572  1.621   44.3567  44.5875   -23.282
+i15     1.1916   1.7737   0.048565  7.352   63.2024  51.9366   -28.6308
+i16     2.4231   4.5036	  0.00146   9.888   28.026  -7.1651	    2.4332
 ;
 
 
@@ -143,13 +184,14 @@ EQUATIONS
 eq11 !! makes it unhappy
 eq12
 eq13
-eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
+* eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
 eq21 !! makes it unhappy
-eq22, eq23, eq24
+* eq22, eq23, eq24
 eq25(i)
-eq27a, eq27b, eq28, eq29, eq30, eq31
+* eq27a, eq27b, eq28, eq29, eq30, eq31
 * eq32(i), eq33(j),eq34(j),
 ObjFun
+IntCut(x)
 ;
 
 eq1a..      p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
@@ -175,31 +217,33 @@ eq10..      sum(i, n(i)) =g= 2;
 eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
 eq12..      sum(i, n(i)*b(i)) =g= 2*(sum(i, n(i))-1);
 eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*(sum(i, n(i))-1);
-eq17a..     sum(SDx, n(SDx)) =g= YSDx;
-eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
-eq18a..     sum(SDy, n(SDy)) =g= YSDy;
-eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-eq19a..     sum(SDz, n(SDz)) =g= YSDz;
-eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
-eq20..      YSDy + YSDz -1 =l= YSDx;
+* eq17a..     sum(SDx, n(SDx)) =g= YSDx;
+* eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
+* eq18a..     sum(SDy, n(SDy)) =g= YSDy;
+* eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
+* eq19a..     sum(SDz, n(SDz)) =g= YSDz;
+* eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
+* eq20..      YSDy + YSDz -1 =l= YSDx;
 * eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
 eq21..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of above (simpler)
-eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
-eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
-eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+* eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
+* eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
+* eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
 Alias (i, ii);
 eq25(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
-eq27a..     YH =l= sum(H, n(H));
-eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
-eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
-eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
-eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
-eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
+* eq27a..     YH =l= sum(H, n(H));
+* eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
+* eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
+* eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
+* eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
+* eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
 * eq32(i)..   n(i) =l= nU(i);
 * eq33(j)..   p(j) =l= pU(j);
 * eq34(j)..   p(j) =g= pL(j);
 
 ObjFun..        OF   =e= p('j8')/p('j12');
+
+IntCut(x)$(dyn(x)).. sum(i,(nv(i,x)-n(i))**2)=g=1;
 
 n.lo(i)=nL(i);
 n.up(i)=nU(i);
@@ -220,12 +264,14 @@ p.l('j9') = -0.1;
 p.l('j10') = -4;
 p.l('j11') = 0.03;
 p.l('j12') = 15;
-n.l('i1') = 1;
-n.l('i5') = 1; !! start with some of group 1
+n.l('i5') = 2;
+* n.l('i16') = 1; !! start with some of group 1
 
 OPTION SYSOUT = ON;
 
 * option minlp = baron;
+* options optcr=0;
+* options optca=0;
 
 Model CAMD /all/;
 
@@ -235,4 +281,17 @@ $onecho > baron.opt
 CompIIS = 1
 $offecho
 
-Solve CAMD using MINLP minimise OF;
+* Solve CAMD using MINLP minimise OF;
+*Integer cut
+nv(i,x)=0;
+alias(x,xx);
+loop(xx,
+         solve CAMD minimising OF using MINLP;
+*         solve modelPO minimising OF using MIP;
+         nv(i,xx)=n.l(i);
+         OFv(xx)=OF.l;
+         pv(j,xx) = p.l(j);
+         dyn(xx)=yes;
+);
+
+display nv, pv, OFv;
