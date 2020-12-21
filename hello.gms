@@ -244,11 +244,17 @@ EQUATIONS
 eq11 !! makes it unhappy
 eq12
 eq13
-eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
+* eq17a, eq17b
+eq18a, eq18b
+* eq19a, eq19b
+eq20
 eq21 !! makes it unhappy
-eq22, eq23, eq24
+eq22,
+* eq23, eq24
 eq25(i)
-eq27a, eq27b, eq28, eq29, eq30, eq31
+eq27a, eq27b, eq28
+* eq29, eq30
+eq31
 * eq32(i), eq33(j),eq34(j),
 ObjFun
 IntCut(x)
@@ -277,25 +283,25 @@ eq10..      sum(i, n(i)) =g= 2;
 eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
 eq12..      sum(i, n(i)*b(i)) =g= 2*(sum(i, n(i))-1);
 eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*(sum(i, n(i))-1);
-eq17a..     sum(SDx, n(SDx)) =g= YSDx;
-eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
+* eq17a..     sum(SDx, n(SDx)) =g= YSDx;
+* eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
 eq18a..     sum(SDy, n(SDy)) =g= YSDy;
 eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-eq19a..     sum(SDz, n(SDz)) =g= YSDz;
-eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
+* eq19a..     sum(SDz, n(SDz)) =g= YSDz;
+* eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
 eq20..      YSDy + YSDz -1 =l= YSDx;
 * eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
 eq21..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of above (simpler)
 eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
-eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
-eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+* eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
+* eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
 Alias (i, ii);
 eq25(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
 eq27a..     YH =l= sum(H, n(H));
 eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
 eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
-eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
-eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
+* eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
+* eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
 eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
 * eq32(i)..   n(i) =l= nU(i);
 * eq33(j)..   p(j) =l= pU(j);
