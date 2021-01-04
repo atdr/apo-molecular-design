@@ -4,11 +4,11 @@ $onEolCom
 SETS
     i       groups / i1*i36 / !! CH3, CH2, CH C Br
     j       properties / j1*j12 /
-    k       indices /1*2/
-    l       indices /1*7/
+    k       indices for vapour pressure calculation / evap, cond /
+    l       indices of parameters for calculating j1*j5 /1*7/
     Bo(i)   oddly-bonded bonds /i1,i3,i5,i8,i10,i12,i13,i15*i21,i23*i26,i28,i31*i33,i35/
     SDx(i)  /system.empty/
-    SDy(i)  /i1*i34/
+    SDy(i)  /i1*i36/
     SDz(i)  /system.empty/
     H(i)    groups with higher-order bonds /i2*i4,i6*i9,i11,i12,i14,i22,i23,i25,i27,i29*i31,i34,i36/
     O(i)    groups with single bonds /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/ !! define relation with H
@@ -82,7 +82,7 @@ nU(i) = Nmax;
 nL(i) = 0;
 Te   = 272;
 Tc   = 316;
-Tm   = 294;
+Tm   = (Te+Tc)/2;
 
 * the below constants are from M&G Table 2
 Tb0  = 222.543;     !! K
@@ -200,14 +200,14 @@ eq1c..      p('j3') =e= power(sum(i,n(i)*c(i,'3'))+Pc2,-2)+Pc1;
 eq1d..      p('j4') =e= sum(i,n(i)*c(i,'4'))+Hv0;
 eq2a..      p('j5') =e= (sum(i,n(i)*c(i,'5'))-19.7779)+(sum(i,n(i)*c(i,'6'))+22.5981)*theta+(sum(i,n(i)*c(i,'7'))-10.7983)*power(theta,2);
 eq2b..      theta =e= (Tm-298)/700;
-eq3a..      p('j6') =e= exp(f0('1')+p('j11')*f1('1')+power(p('j11'),2)*f2('1'))*p('j3');
-eq3b..      p('j7') =e= exp(f0('2')+p('j11')*f1('2')+power(p('j11'),2)*f2('2'))*p('j3');
-eq4a1..     f0('1') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4b1..     f1('1') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4c1..     f2('1') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4a2..     f0('2') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4b2..     f1('2') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4c2..     f2('2') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq3a..      p('j6') =e= exp(f0('evap')+p('j11')*f1('evap')+power(p('j11'),2)*f2('evap'))*p('j3');
+eq3b..      p('j7') =e= exp(f0('cond')+p('j11')*f1('cond')+power(p('j11'),2)*f2('cond'))*p('j3');
+eq4a1..     f0('evap') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4b1..     f1('evap') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4c1..     f2('evap') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4a2..     f0('cond') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq4b2..     f1('cond') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq4c2..     f2('cond') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
 eq5..       p('j8') =e= p('j5')+8.314*(1.45+0.45/(1-Tm/p('j2'))+0.25*p('j11')*(17.11+25.22*(1-Tm/p('j2'))**(1/3)/(Tm/p('j2'))+1.742/(1-Tm/p('j2'))));
 eq6..       p('j9') =e= -5.97214-log(p('j3')/1.013)+6.09648*p('j2')/p('j1')+1.28862*log(p('j1')/p('j2'))-0.169347*(p('j1')/p('j2'))**6;
 eq7..       p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('j2'))+0.4357*(p('j1')/p('j2'))**6;
@@ -246,25 +246,25 @@ IntCut(x)$(dyn(x)).. sum(i,abs(nv(i,x)-n(i)))=g=1;
 * nLo(i)..   n(i) =g= nL(i);
 * pUp(j)..   p(j) =l= pU(j);
 * pLo(j)..   p(j) =g= pL(j);
-n.lo(i)=nL(i);
-n.up(i)=nU(i);
-p.lo(j)=pL(j);
-p.up(j)=pU(j);
+n.lo(i) = nL(i);
+n.up(i) = nU(i);
+p.lo(j) = pL(j);
+p.up(j) = pU(j);
 
 * set intial values
-p.l('j1') = 250; !! completely arbitrary
-p.l('j2') = 400;
-p.l('j3') = 20;
-p.l('j4') = 20;
-p.l('j5') = 100;
-p.l('j6') = 1.5;
-p.l('j7') = 4.5;
-p.l('j8') = 130;
-p.l('j9') = -0.1;
+p.l('j1')  = 250; !! completely arbitrary
+p.l('j2')  = 400;
+p.l('j3')  = 20;
+p.l('j4')  = 20;
+p.l('j5')  = 100;
+p.l('j6')  = 1.5;
+p.l('j7')  = 4.5;
+p.l('j8')  = 130;
+p.l('j9')  = -0.1;
 p.l('j10') = -4;
 p.l('j11') = 0.03;
 p.l('j12') = 15;
-n.l('i1') = 2;
+n.l('i1')  = 2;
 * n.l('i16') = 1; !! start with some of group 1
 
 OPTION SYSOUT = ON;
