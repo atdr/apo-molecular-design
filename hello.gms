@@ -11,7 +11,7 @@ SETS
     SDy(i)  /i1*i34/
     SDz(i)  /system.empty/
     H(i)    groups with higher-order bonds /i2*i4,i6*i9,i11,i12,i14,i22,i23,i25,i27,i29*i31,i34,i36/
-    O(i)    groups with single bond /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/ !! define relation with H
+    O(i)    groups with single bonds /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/ !! define relation with H
 
     x       integer cuts /1*10/
     dyn(x)  dynamic set of c
@@ -189,9 +189,9 @@ EQUATIONS
     eq27a, eq27b, eq28
 * eq29, eq30
     eq31
-* eq32(i), eq33(j),eq34(j),
     ObjFun
     IntCut(x)
+* nUp(i), nLo(i), pUp(j), pLo(j)
 ;
 
 eq1a..      p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
@@ -237,17 +237,17 @@ eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy
 * eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
 * eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
 eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
-* eq32(i)..   n(i) =l= nU(i);
-* eq33(j)..   p(j) =l= pU(j);
-* eq34(j)..   p(j) =g= pL(j);
 
 ObjFun..    OF   =e= p('j8')/p('j12');
 
 IntCut(x)$(dyn(x)).. sum(i,abs(nv(i,x)-n(i)))=g=1;
 
+* nUp(i)..   n(i) =l= nU(i);
+* nLo(i)..   n(i) =g= nL(i);
+* pUp(j)..   p(j) =l= pU(j);
+* pLo(j)..   p(j) =g= pL(j);
 n.lo(i)=nL(i);
 n.up(i)=nU(i);
-
 p.lo(j)=pL(j);
 p.up(j)=pU(j);
 
