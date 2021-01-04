@@ -21,83 +21,43 @@ dyn(x) = no;
 
 PARAMETERS
     pL(j)   property lower bounds
+        /j1 0,
+        j2  0,
+        j3  0,
+        j4  0,
+        j5  0,
+        j6  1.1,
+        j7  0,
+        j8  0,
+        j9  -10,
+        j10 -10,
+        j11 0,
+        j12 20.353/
     pU(j)   property upper bounds
+        /j1 1000,
+        j2  1000,
+        j3  1000,
+        j4  10000,
+        j5  1000,
+        j6  100,
+        j7  14,
+        j8  143.67,
+        j9  10,
+        j10 10,
+        j11 1,
+        j12 10000/
     nL(i)   groups lower bounds
     nU(i)   groups upper bounds
     b(i)    group valency
-        /i1 1,
-        i2 2,
-        i3 3,
-        i4 4,
-        i5 1,
-        i6 2,
-        i7 2,
-        i8 3,
-        i9 4,
-        i10 1,
-        i11 2,
-        i12 3,
-        i13 1,
-        i14 2,
-        i15 1,
-        i16 1,
-        i17 1,
-        i18 1.
-        i19 1,
-        i20 1,
-        i21 1,
-        i22 2,
-        i23 3,
-        i24 1,
-        i25 1,
-        i26 1,
-        i27 2,
-        i28 1,
-        i29 2,
-        i30 2,
-        i31 3,
-        i32 1,
-        i33 1,
-        i34 2,
-        i35 1,
-        i36 2/
+        /i1 1, i2  2, i3  3, i4  4, i5  1, i6  2, i7  2, i8  3, i9  4, i10 1,
+        i11 2, i12 3, i13 1, i14 2, i15 1, i16 1, i17 1, i18 1. i19 1, i20 1,
+        i21 1, i22 2, i23 3, i24 1, i25 1, i26 1, i27 2, i28 1, i29 2, i30 2,
+        i31 3, i32 1, i33 1, i34 2, i35 1, i36 2/
     S(i)    # of single bonds on group i
-        /i1 1,
-        i2 2,
-        i3 3,
-        i4 4,
-        i5 1,
-        i6 2,
-        i7 2,
-        i8 3,
-        i9 4,
-        i10 1,
-        i11 2,
-        i12 3,
-        i13 1,
-        i14 2,
-        i15 1,
-        i16 1,
-        i17 1,
-        i18 1.
-        i19 1,
-        i20 1,
-        i21 1,
-        i22 2,
-        i23 3,
-        i24 1,
-        i25 1,
-        i26 1,
-        i27 2,
-        i28 1,
-        i29 2,
-        i30 2,
-        i31 3,
-        i32 1,
-        i33 1,
-        i34 2,
-        i35 1,
-        i36 2/
+        /i1 1, i2  2, i3  3, i4  4, i5  1, i6  2, i7  2, i8  3, i9  4, i10 1,
+        i11 2, i12 3, i13 1, i14 2, i15 1, i16 1, i17 1, i18 1, i19 1, i20 1,
+        i21 1, i22 2, i23 3, i24 1, i25 1, i26 1, i27 2, i28 1, i29 2, i30 2,
+        i31 3, i32 1, i33 1, i34 2, i35 1, i36 2/
     D(i)  # of double bonds on group i
     T(i)  # of triple bonds on group i
     Nmax  max # of any group
@@ -115,32 +75,6 @@ PARAMETERS
     pv(j,x)
 ;
 
-pL('j1') = 0;
-pL('j2') = 0;
-pL('j3') = 0;
-pL('j4') = 0;
-pL('j5') = 0;
-pL('j6') = 1.1;
-pL('j7') = 0;
-pL('j8') = 0;
-pL('j9') = -10;
-pL('j10') = -10;
-pL('j11') = 0;
-pL('j12') = 20.353;
-
-pU('j1') = 1000;
-pU('j2') = 1000;
-pU('j3') = 1000;
-pU('j4') = 10000;
-pU('j5') = 1000;
-pU('j6') = 100;
-pU('j7') = 14;
-pU('j8') = 143.67;
-pU('j9') =  10;
-pU('j10') = 10;
-pU('j11') = 1;
-pU('j12') = 10000;
-
 D(i) = 0;
 T(i) = 0;
 Nmax = 3;
@@ -151,11 +85,11 @@ Tc   = 316;
 Tm   = 294;
 
 * the below constants are from M&G Table 2
-Tb0  = 222.543; !! K
-Tc0  = 231.239; !! K
-Pc1  = 5.9827; !! bar
-Pc2  = 0.108998; !!bar^{-0.5}
-Hv0  = 11.733; !! kJ/mol
+Tb0  = 222.543;     !! K
+Tc0  = 231.239;     !! K
+Pc1  = 5.9827;      !! bar
+Pc2  = 0.108998;    !! bar^{-0.5}
+Hv0  = 11.733;      !! kJ/mol
 
 Table c(i,l)
         1        2        3         4       5        6          7
@@ -209,10 +143,10 @@ VARIABLES
 
 INTEGER VARIABLES
     n(i)    group multiplicity
-ZBo     number of odd bonds
-ZS      number of single bonds
-ZD      number of double bonds
-ZT      number of triple bonds
+    ZBo     number of odd bonds
+    ZS      number of single bonds
+    ZD      number of double bonds
+    ZT      number of triple bonds
 ;
 ZBo.up = 10; ZS.up = 10; ZD.up = 10; ZT.up = 10;
 ZBo.l = 1;
@@ -241,23 +175,23 @@ EQUATIONS
     eq8     acentricity factor
     eq9     enthalpy of vaporization at Te
     eq10
-eq11 !! makes it unhappy
-eq12
-eq13
+    eq11 !! makes it unhappy
+    eq12
+    eq13
 * eq17a, eq17b
-eq18a, eq18b
+    eq18a, eq18b
 * eq19a, eq19b
-eq20
-eq21 !! makes it unhappy
-eq22,
+    eq20
+    eq21 !! makes it unhappy
+    eq22
 * eq23, eq24
-eq25(i)
-eq27a, eq27b, eq28
+    eq25(i)
+    eq27a, eq27b, eq28
 * eq29, eq30
-eq31
+    eq31
 * eq32(i), eq33(j),eq34(j),
-ObjFun
-IntCut(x)
+    ObjFun
+    IntCut(x)
 ;
 
 eq1a..      p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
@@ -307,7 +241,7 @@ eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
 * eq33(j)..   p(j) =l= pU(j);
 * eq34(j)..   p(j) =g= pL(j);
 
-ObjFun..        OF   =e= p('j8')/p('j12');
+ObjFun..    OF   =e= p('j8')/p('j12');
 
 IntCut(x)$(dyn(x)).. sum(i,abs(nv(i,x)-n(i)))=g=1;
 
