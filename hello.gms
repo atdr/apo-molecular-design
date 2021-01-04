@@ -50,7 +50,7 @@ PARAMETERS
     nU(i)   groups upper bounds
     b(i)    group valency
         /i1 1, i2  2, i3  3, i4  4, i5  1, i6  2, i7  2, i8  3, i9  4, i10 1,
-        i11 2, i12 3, i13 1, i14 2, i15 1, i16 1, i17 1, i18 1. i19 1, i20 1,
+        i11 2, i12 3, i13 1, i14 2, i15 1, i16 1, i17 1, i18 1, i19 1, i20 1,
         i21 1, i22 2, i23 3, i24 1, i25 1, i26 1, i27 2, i28 1, i29 2, i30 2,
         i31 3, i32 1, i33 1, i34 2, i35 1, i36 2/
     S(i)    # of single bonds on group i
