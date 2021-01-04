@@ -175,22 +175,24 @@ EQUATIONS
     eq8     acentricity factor
     eq9     enthalpy of vaporization at Te
     eq10
-    eq11 !! makes it unhappy
+    eq11
     eq12
     eq13
-* eq17a, eq17b
-    eq18a, eq18b
-* eq19a, eq19b
-    eq20
-    eq21 !! makes it unhappy
-    eq22
-* eq23, eq24
-    eq25(i)
-    eq27a, eq27b, eq28
-* eq29, eq30
-    eq31
-    ObjFun
-    IntCut(x)
+* oldeq17a, oldeq17b
+    eq14a, eq14b !! oldeq18a, oldeq18b
+* oldeq19a, oldeq19b
+* oldeq20
+    eq15 !! oldeq21 (JS)
+    eq16 !! oldeq22
+* oldeq23, oldeq24
+    eq17 !! oldeq21 (OM)
+    eq18(i) !! oldeq25(i)
+    eq19a, eq19b !! oldeq27a, oldeq27b
+    eq20 !! oldeq28
+* oldeq29, oldeq30
+    eq21 !! oldeq31
+    ObjFun !! eq22
+    IntCut(x) !! eq23
 * nUp(i), nLo(i), pUp(j), pLo(j)
 ;
 
@@ -217,26 +219,26 @@ eq10..      sum(i, n(i)) =g= 2;
 eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
 eq12..      sum(i, n(i)*b(i)) =g= 2*(sum(i, n(i))-1);
 eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*(sum(i, n(i))-1);
-* eq17a..     sum(SDx, n(SDx)) =g= YSDx;
-* eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
-eq18a..     sum(SDy, n(SDy)) =g= YSDy;
-eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-* eq19a..     sum(SDz, n(SDz)) =g= YSDz;
-* eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
-eq20..      YSDy + YSDz -1 =l= YSDx;
-* eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
-eq21..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of above (simpler)
-eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
-* eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
-* eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+* oldeq17a..     sum(SDx, n(SDx)) =g= YSDx;
+* oldeq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
+eq14a..     sum(SDy, n(SDy)) =g= YSDy;
+eq14b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
+* oldeq19a..     sum(SDz, n(SDz)) =g= YSDz;
+* oldeq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
+* oldeq20..      YSDy + YSDz -1 =l= YSDx;
+* eq15..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
+eq16..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
+* oldeq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
+* oldeq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+eq17..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of eq15 (simpler)
 Alias (i, ii);
-eq25(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
-eq27a..     YH =l= sum(H, n(H));
-eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
-eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
-* eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
-* eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
-eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
+eq18(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
+eq19a..     YH =l= sum(H, n(H));
+eq19b..     sum(H, n(H)) =l= Nmax*YH*card(H);
+eq20..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
+* oldeq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
+* oldeq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
+eq21..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
 
 ObjFun..    OF   =e= p('j8')/p('j12');
 
