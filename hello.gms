@@ -168,7 +168,7 @@ EQUATIONS
     eq2b    theta for ditto
     eq3a    Pvp (evap)
     eq3b    Pvp (cond)
-    eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2 !! some parameter for Pvp (woo woo) - index 1/2 refer to evap/cond
+    eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2 !! some parameters for Pvp
     eq5     liquid heat capacity
     eq6     alpha (for eq8)
     eq7     beta (for eq8)
@@ -182,7 +182,7 @@ EQUATIONS
     eq14a, eq14b !! oldeq18a, oldeq18b
 * oldeq19a, oldeq19b
 * oldeq20
-    eq15 !! oldeq21 (JS)
+* eq15 !! oldeq21 (JS)
     eq16 !! oldeq22
 * oldeq23, oldeq24
     eq17 !! oldeq21 (OM)
