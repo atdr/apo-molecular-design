@@ -189,10 +189,9 @@ EQUATIONS
     eq17(i) !! oldeq25(i)
     eq18a, eq18b !! oldeq27a, oldeq27b
     eq19 !! oldeq28
-* oldeq29, oldeq30
-    eq20 !! oldeq31
-    ObjFun !! eq21
-    IntCut(x) !! eq22
+* oldeq29, oldeq30, oldeq31
+    ObjFun !! eq20
+    IntCut(x) !! eq21
 * nUp(i), nLo(i), pUp(j), pLo(j)
 ;
 
@@ -238,7 +237,7 @@ eq18b..     sum(H, n(H)) =l= Nmax*YH*card(H);
 eq19..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
 * oldeq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
 * oldeq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
-eq20..      sum(H, n(H)*S(H)) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
+* oldeq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
 
 ObjFun..    OF   =e= p('j8')/p('j12');
 
