@@ -1,19 +1,14 @@
-$title "let's get started"
+$title "CAMD refrigerant design replacing R134a"
 $onEolCom
 
 SETS
     i       groups / i1*i36 / !! CH3, CH2, CH C Br
     j       properties / j1*j12 /
-    k       indices /1*2/
-    l       indices /1*7/
+    k       indices for vapour pressure calculation / evap, cond /
+    l       indices of parameters for calculating j1*j5 /1*7/
     Bo(i)   oddly-bonded bonds /i1,i3,i5,i8,i10,i12,i13,i15*i21,i23*i26,i28,i31*i33,i35/
-    SDx(i)  /system.empty/
-    SDy(i)  /i1*i34/
-    SDz(i)  /system.empty/
-    H(i)    groups with higher-order bonds /i2*i4,i6*i9,i11,i12,i14,i22,i23,i25,i27,i29*i31,i34,i36/
-    O(i)    groups with single bond /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/ !! define relation with H
-
-    x       integer cuts /1*10/
+    SDy(i)  /i1*i36/
+    x       integer cuts /1*13/
     dyn(x)  dynamic set of c
 ;
 
@@ -21,85 +16,43 @@ dyn(x) = no;
 
 PARAMETERS
     pL(j)   property lower bounds
+        /j1 0,
+        j2  0,
+        j3  0,
+        j4  0,
+        j5  0,
+        j6  1.1,
+        j7  0,
+        j8  0,
+        j9  -10,
+        j10 -10,
+        j11 0,
+        j12 20.353/
     pU(j)   property upper bounds
+        /j1 1000,
+        j2  1000,
+        j3  1000,
+        j4  10000,
+        j5  1000,
+        j6  100,
+        j7  14,
+        j8  143.67,
+        j9  10,
+        j10 10,
+        j11 1,
+        j12 10000/
     nL(i)   groups lower bounds
     nU(i)   groups upper bounds
     b(i)    group valency
-        /i1 1,
-        i2 2,
-        i3 3,
-        i4 4,
-        i5 1,
-        i6 2,
-        i7 2,
-        i8 3,
-        i9 4,
-        i10 1,
-        i11 2,
-        i12 3,
-        i13 1,
-        i14 2,
-        i15 1,
-        i16 1,
-        i17 1,
-        i18 1.
-        i19 1,
-        i20 1,
-        i21 1,
-        i22 2,
-        i23 3,
-        i24 1,
-        i25 1,
-        i26 1,
-        i27 2,
-        i28 1,
-        i29 2,
-        i30 2,
-        i31 3,
-        i32 1,
-        i33 1,
-        i34 2,
-        i35 1,
-        i36 2/
+        /i1 1, i2  2, i3  3, i4  4, i5  1, i6  2, i7  2, i8  3, i9  4, i10 1,
+        i11 2, i12 3, i13 1, i14 2, i15 1, i16 1, i17 1, i18 1, i19 1, i20 1,
+        i21 1, i22 2, i23 3, i24 1, i25 1, i26 1, i27 2, i28 1, i29 2, i30 2,
+        i31 3, i32 1, i33 1, i34 2, i35 1, i36 2/
     S(i)    # of single bonds on group i
-        /i1 1,
-        i2 2,
-        i3 3,
-        i4 4,
-        i5 1,
-        i6 2,
-        i7 2,
-        i8 3,
-        i9 4,
-        i10 1,
-        i11 2,
-        i12 3,
-        i13 1,
-        i14 2,
-        i15 1,
-        i16 1,
-        i17 1,
-        i18 1.
-        i19 1,
-        i20 1,
-        i21 1,
-        i22 2,
-        i23 3,
-        i24 1,
-        i25 1,
-        i26 1,
-        i27 2,
-        i28 1,
-        i29 2,
-        i30 2,
-        i31 3,
-        i32 1,
-        i33 1,
-        i34 2,
-        i35 1,
-        i36 2/
-    D(i)  # of double bonds on group i
-    T(i)  # of triple bonds on group i
+        /i1 1, i2  2, i3  3, i4  4, i5  1, i6  2, i7  2, i8  3, i9  4, i10 1,
+        i11 2, i12 3, i13 1, i14 2, i15 1, i16 1, i17 1, i18 1, i19 1, i20 1,
+        i21 1, i22 2, i23 3, i24 1, i25 1, i26 1, i27 2, i28 1, i29 2, i30 2,
+        i31 3, i32 1, i33 1, i34 2, i35 1, i36 2/
     Nmax  max # of any group
     Te    evaporation temperature
     Tc    condensation temperature
@@ -114,48 +67,22 @@ PARAMETERS
     OFv(x)
     pv(j,x)
 ;
-
-pL('j1') = 0;
-pL('j2') = 0;
-pL('j3') = 0;
-pL('j4') = 0;
-pL('j5') = 0;
-pL('j6') = 1.1;
-pL('j7') = 0;
-pL('j8') = 0;
-pL('j9') = -10;
-pL('j10') = -10;
-pL('j11') = 0;
-pL('j12') = 20.353;
-
-pU('j1') = 1000;
-pU('j2') = 1000;
-pU('j3') = 1000;
-pU('j4') = 10000;
-pU('j5') = 1000;
-pU('j6') = 100;
-pU('j7') = 14;
-pU('j8') = 143.67;
-pU('j9') =  10;
-pU('j10') = 10;
-pU('j11') = 1;
-pU('j12') = 10000;
-
-D(i) = 0;
-T(i) = 0;
+* Setting group bounds
 Nmax = 3;
 nU(i) = Nmax;
 nL(i) = 0;
+
+* Operating temperatures
 Te   = 272;
 Tc   = 316;
-Tm   = 294;
+Tm   = (Te+Tc)/2;
 
 * the below constants are from M&G Table 2
-Tb0  = 222.543; !! K
-Tc0  = 231.239; !! K
-Pc1  = 5.9827; !! bar
-Pc2  = 0.108998; !!bar^{-0.5}
-Hv0  = 11.733; !! kJ/mol
+Tb0  = 222.543;     !! K
+Tc0  = 231.239;     !! K
+Pc1  = 5.9827;      !! bar
+Pc2  = 0.108998;    !! bar^{-0.5}
+Hv0  = 11.733;      !! kJ/mol
 
 Table c(i,l)
         1        2        3         4       5        6          7
@@ -200,32 +127,23 @@ i36   1.6767   4.587    0.010888   12.54   26.7371  21.7676    -6.4481
 
 VARIABLES
     p(j)    property value
-    f0(k)
-    f1(k)
-    f2(k)
-    theta
-    OF
+    f0(k)   used in Pitzer expasion
+    f1(k)   used in Pitzer expasion
+    f2(k)   used in Pitzer expasion
+    theta   used in CG equation
+    OF      objective function
 ;
 
 INTEGER VARIABLES
     n(i)    group multiplicity
-ZBo     number of odd bonds
-ZS      number of single bonds
-ZD      number of double bonds
-ZT      number of triple bonds
+    ZBo     number of odd bonds
+    ZS      number of single bonds
 ;
-ZBo.up = 10; ZS.up = 10; ZD.up = 10; ZT.up = 10;
-ZBo.l = 1;
-
-BINARY VARIABLES
-    YSDx    exist singly and doubly-bonded groups
-    YSDy    exist singly not doubly-bonded groups
-    YSDz    exist doubly not singly-bonded groups
-    YH      exist higher-order groups
-;
+ZBo.up = 10; ZS.up = 10; ZBo.l = 1;
 
 
 EQUATIONS
+* Thermodynamic models
     eq1a    Normal boiling point (Tb) !! 1a-d are from M&G Table 1
     eq1b    Critical temperature (Tc)
     eq1c    Critical pressure (Pc)
@@ -234,125 +152,121 @@ EQUATIONS
     eq2b    theta for ditto
     eq3a    Pvp (evap)
     eq3b    Pvp (cond)
-    eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2 !! some parameter for Pvp (woo woo) - index 1/2 refer to evap/cond
+    eq4a1,eq4a2,eq4b1,eq4b2,eq4c1,eq4c2 !! some parameters for Pvp
     eq5     liquid heat capacity
     eq6     alpha (for eq8)
     eq7     beta (for eq8)
     eq8     acentricity factor
     eq9     enthalpy of vaporization at Te
-    eq10
-eq11 !! makes it unhappy
-eq12
-eq13
-eq17a, eq17b, eq18a, eq18b, eq19a, eq19b, eq20
-eq21 !! makes it unhappy
-eq22, eq23, eq24
-eq25(i)
-eq27a, eq27b, eq28, eq29, eq30, eq31
-* eq32(i), eq33(j),eq34(j),
-ObjFun
-IntCut(x)
+* Structural constraints   
+    eq10    
+    eq11
+    eq12
+    eq13
+    eq16
+    eq17
+    eq18(i)
+* Objective function
+    ObjFun
+*Integer cuts
+    IntCut(x)
 ;
 
+* Marrero and Gani method
 eq1a..      p('j1') =e= Tb0*log(sum(i,n(i)*c(i,'1')));
 eq1b..      p('j2') =e= Tc0*log(sum(i,n(i)*c(i,'2')));
 eq1c..      p('j3') =e= power(sum(i,n(i)*c(i,'3'))+Pc2,-2)+Pc1;
 eq1d..      p('j4') =e= sum(i,n(i)*c(i,'4'))+Hv0;
+
+* Constantinou and Gani Method
 eq2a..      p('j5') =e= (sum(i,n(i)*c(i,'5'))-19.7779)+(sum(i,n(i)*c(i,'6'))+22.5981)*theta+(sum(i,n(i)*c(i,'7'))-10.7983)*power(theta,2);
 eq2b..      theta =e= (Tm-298)/700;
-eq3a..      p('j6') =e= exp(f0('1')+p('j11')*f1('1')+power(p('j11'),2)*f2('1'))*p('j3');
-eq3b..      p('j7') =e= exp(f0('2')+p('j11')*f1('2')+power(p('j11'),2)*f2('2'))*p('j3');
-eq4a1..     f0('1') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4b1..     f1('1') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4c1..     f2('1') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
-eq4a2..     f0('2') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4b2..     f1('2') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
-eq4c2..     f2('2') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+
+* Pitzer Expansion with Ambrose-Watson coefficients
+eq3a..      p('j6') =e= exp(f0('evap')+p('j11')*f1('evap')+power(p('j11'),2)*f2('evap'))*p('j3');
+eq3b..      p('j7') =e= exp(f0('cond')+p('j11')*f1('cond')+power(p('j11'),2)*f2('cond'))*p('j3');
+eq4a1..     f0('evap') =e= (-5.97616*(1-Te/p('j2'))+1.29874*(1-Te/p('j2'))**1.5-0.60394*(1-Te/p('j2'))**2.5-1.06841*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4b1..     f1('evap') =e= (-5.03365*(1-Te/p('j2'))+1.11505*(1-Te/p('j2'))**1.5-5.41217*(1-Te/p('j2'))**2.5-7.46628*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4c1..     f2('evap') =e= (-0.64771*(1-Te/p('j2'))+2.41539*(1-Te/p('j2'))**1.5-4.26979*(1-Te/p('j2'))**2.5-3.25259*(1-Te/p('j2'))**5)/(Te/p('j2'));
+eq4a2..     f0('cond') =e= (-5.97616*(1-Tc/p('j2'))+1.29874*(1-Tc/p('j2'))**1.5-0.60394*(1-Tc/p('j2'))**2.5-1.06841*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq4b2..     f1('cond') =e= (-5.03365*(1-Tc/p('j2'))+1.11505*(1-Tc/p('j2'))**1.5-5.41217*(1-Tc/p('j2'))**2.5-7.46628*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+eq4c2..     f2('cond') =e= (-0.64771*(1-Tc/p('j2'))+2.41539*(1-Tc/p('j2'))**1.5-4.26979*(1-Tc/p('j2'))**2.5-3.25259*(1-Tc/p('j2'))**5)/(Tc/p('j2'));
+
+* Rowlinson and Bondi equation
 eq5..       p('j8') =e= p('j5')+8.314*(1.45+0.45/(1-Tm/p('j2'))+0.25*p('j11')*(17.11+25.22*(1-Tm/p('j2'))**(1/3)/(Tm/p('j2'))+1.742/(1-Tm/p('j2'))));
+
+* Kesler and Lee equation
 eq6..       p('j9') =e= -5.97214-log(p('j3')/1.013)+6.09648*p('j2')/p('j1')+1.28862*log(p('j1')/p('j2'))-0.169347*(p('j1')/p('j2'))**6;
 eq7..       p('j10') =e= 15.2518-15.6875*p('j2')/p('j1')-13.4721*log(p('j1')/p('j2'))+0.4357*(p('j1')/p('j2'))**6;
 eq8..       p('j11') =e= p('j9')/p('j10');
-eq9..       p('j12') =e= p('j4')*((1-Te/p('j2'))/(1-p('j1')/p('j2')))**0.38;
+
+* Watson's method
+eq9..       p('j12') =e= p('j4')*((1-Te/p('j2'))/(1-298/p('j2')))**0.38;
+
+* Rule 1
 eq10..      sum(i, n(i)) =g= 2;
+
+* Rule 5
 eq11..      sum(Bo, n(Bo)) =e= 2*ZBo;
+
+* Rule 6
 eq12..      sum(i, n(i)*b(i)) =g= 2*(sum(i, n(i))-1);
+
+* Rule 7
 eq13..      sum(i, n(i)*b(i)) =l= sum(i, n(i))*(sum(i, n(i))-1);
-eq17a..     sum(SDx, n(SDx)) =g= YSDx;
-eq17b..     sum(SDx, n(SDx)) =l= Nmax*YSDx*card(SDx);
-eq18a..     sum(SDy, n(SDy)) =g= YSDy;
-eq18b..     sum(SDy, n(SDy)) =l= Nmax*YSDy*card(SDy);
-eq19a..     sum(SDz, n(SDz)) =g= YSDz;
-eq19b..     sum(SDz, n(SDz)) =l= Nmax*YSDz*card(SDz);
-eq20..      YSDy + YSDz -1 =l= YSDx;
-* eq21..      sum(i$(b(i)=1), n(i)) - sum(i$(b(i)=3), n(i)) - 2*sum(i$(b(i)=4), n(i)) =e= 2;
-eq21..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of above (simpler)
-eq22..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
-eq23..      sum(i$(D(i)>0), n(i)*D(i)) =e= 2*ZD;
-eq24..      sum(i$(T(i)>0), n(i)*T(i)) =e= 2*ZT;
+
+* Rule 11
+eq16..      sum(i$(S(i)>0), n(i)*S(i)) =e= 2*ZS;
+
+* Rule 10
+eq17..      sum(i,n(i)*(2-b(i))) =e= 2; !! Odele-Macchietto version of eq15 (simpler)
+
+* Odele-Macchietto constraints
 Alias (i, ii);
-eq25(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
-eq27a..     YH =l= sum(H, n(H));
-eq27b..     sum(H, n(H)) =l= Nmax*YH*card(H);
-eq28..      sum(O$(b(O) = 1), n(O)) =l= sum(H, n(H)*S(H)) + Nmax*(1-YH)*card(SDy);
-eq29..      sum(O$(b(O) = 2), n(O)) =l= sum(H, n(H)*D(H)) + Nmax*(1-YH)*card(SDy);
-eq30..      sum(O$(b(O) = 3), n(O)) =l= sum(H, n(H)*T(H)) + Nmax*(1-YH)*card(SDy);
-eq31..      sum(H, n(H)*(S(H)+D(H)+T(H))) - sum(O, n(O)) =e= 2*(sum(H, n(H))-1);
-* eq32(i)..   n(i) =l= nU(i);
-* eq33(j)..   p(j) =l= pU(j);
-* eq34(j)..   p(j) =g= pL(j);
+eq18(i)..   sum(ii, n(ii)) =g= n(i)*(b(i) - 1)+2;
 
-ObjFun..        OF   =e= p('j8')/p('j12');
+* Objective function
+ObjFun..    OF   =e= p('j8')/p('j12');
 
+* Integer cuts
 IntCut(x)$(dyn(x)).. sum(i,abs(nv(i,x)-n(i)))=g=1;
 
-n.lo(i)=nL(i);
-n.up(i)=nU(i);
-
-p.lo(j)=pL(j);
-p.up(j)=pU(j);
+n.lo(i) = nL(i);
+n.up(i) = nU(i);
+p.lo(j) = pL(j);
+p.up(j) = pU(j);
 
 * set intial values
-p.l('j1') = 250; !! completely arbitrary
-p.l('j2') = 400;
-p.l('j3') = 20;
-p.l('j4') = 20;
-p.l('j5') = 100;
-p.l('j6') = 1.5;
-p.l('j7') = 4.5;
-p.l('j8') = 130;
-p.l('j9') = -0.1;
+p.l('j1')  = 250; !! completely arbitrary
+p.l('j2')  = 400;
+p.l('j3')  = 20;
+p.l('j4')  = 20;
+p.l('j5')  = 100;
+p.l('j6')  = 1.5;
+p.l('j7')  = 4.5;
+p.l('j8')  = 130;
+p.l('j9')  = -0.1;
 p.l('j10') = -4;
 p.l('j11') = 0.03;
 p.l('j12') = 15;
-n.l('i1') = 2;
-* n.l('i16') = 1; !! start with some of group 1
+n.l('i1')  = 2;
 
 OPTION SYSOUT = ON;
 
 option minlp = baron;
-* options optcr=0;
-* options optca=0;
 
 Model CAMD /all/;
 
 CAMD.OPTFILE=1;
-$onecho > baron.opt
-# https://www.gams.com/latest/docs/S_BARON.html#BARONCompIIS
-CompIIS = 1
-$offecho
 
-* Solve CAMD using MINLP minimise OF;
 *Integer cut
 nv(i,x)=0;
 alias(x,xx);
 loop(xx,
          solve CAMD minimising OF using MINLP;
-*         solve modelPO minimising OF using MIP;
          nv(i,xx)=n.l(i);
          OFv(xx)=OF.l;
          pv(j,xx) = p.l(j);
-* n.l(i) = 0;
-* n.l('i1') = 1;
          dyn(xx)=yes;
 );
 
