@@ -1,8 +1,8 @@
-$title "let's get started"
+$title "CAMD refrigerant design replacing R134a"
 $onEolCom
 
 SETS
-    i       groups / i1*i36 / !! CH3, CH2, CH C Br
+    i       groups / i1*i36 / !! CH3, CH2, CH, C, Br etc
     j       properties / j1*j12 /
     k       indices for vapour pressure calculation / evap, cond /
     l       indices of parameters for calculating j1*j5 /1*7/
@@ -11,8 +11,7 @@ SETS
     SDy(i)  /i1*i36/
     SDz(i)  /system.empty/
     H(i)    groups with higher-order bonds /i2*i4,i6*i9,i11,i12,i14,i22,i23,i25,i27,i29*i31,i34,i36/
-    O(i)    groups with single bonds /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/ !! define relation with H
-
+    O(i)    groups with single bonds /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/
     x       integer cuts /1*10/
     dyn(x)  dynamic set of c
 ;
