@@ -2,7 +2,7 @@ $title "CAMD refrigerant design replacing R134a"
 $onEolCom
 
 SETS
-    i       groups / i1*i36 / !! CH3, CH2, CH C Br
+    i       groups / i1*i36 / !! CH3, CH2, CH, C, CH2=CH, CH=CH, CH2=C, CH=C, C=C, CH2Cl, CHCl, CCl, CCl3, CF2, CF3, Br, CHCl2, OH, COOH, CH3CO, CH3O, CH2O, CH-O, HCOO, CHO, CH2NH2, CHNH2, CH3NH, CH2NH, CH3N, CH2N, CH2CN, CH2NO2, CHNO2, CH#C, C#C
     j       properties / j1*j12 /
     k       indices for vapour pressure calculation / evap, cond /
     l       indices of parameters for calculating j1*j5 /1*7/
