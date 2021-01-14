@@ -12,7 +12,7 @@ SETS
     SDz(i)  /system.empty/
     H(i)    groups with higher-order bonds /i2*i4,i6*i9,i11,i12,i14,i22,i23,i25,i27,i29*i31,i34,i36/
     O(i)    groups with single bonds /i1,i5,i10,i13,i15*i21,i24,i26,i28,i32,i33,i35/
-    x       integer cuts /1*10/
+    x       integer cuts /1*12/
     dyn(x)  dynamic set of c
 ;
 
@@ -279,20 +279,19 @@ CAMD.OPTFILE=1;
 $onecho > baron.opt
 # https://www.gams.com/latest/docs/S_BARON.html#BARONCompIIS
 CompIIS = 1
+MaxIter = 50000
 $offecho
 
 * Solve CAMD using MINLP minimise OF;
-*Integer cut
+
+* Integer cuts
 nv(i,x)=0;
 alias(x,xx);
 loop(xx,
          solve CAMD minimising OF using MINLP;
-*         solve modelPO minimising OF using MIP;
          nv(i,xx)=n.l(i);
          OFv(xx)=OF.l;
          pv(j,xx) = p.l(j);
-* n.l(i) = 0;
-* n.l('i1') = 1;
          dyn(xx)=yes;
 );
 
